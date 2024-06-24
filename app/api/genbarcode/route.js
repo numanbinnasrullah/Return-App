@@ -6,7 +6,7 @@ export async function POST(get) {
   Connect();
   const data = await get.json();
   console.log("Server Data", data);
-  return NextResponse.json({ msg: "Sb OK" }, { status: 200 });
+  // return NextResponse.json({ msg: "Sb OK" }, { status: 200 });
   try {
     
     console.log("sheet data upload showing server", data);
