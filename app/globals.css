@@ -1,0 +1,19 @@
+/* styles/globals.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  font-family: "Quicksand", sans-serif;
+}
+
+body {
+  @apply bg-gray-100 font-sans;
+}
+
+.container {
+  @apply max-w-4xl mx-auto;
+}
+.react-datepicker-wrapper {
+  display: inline !important;
+}
