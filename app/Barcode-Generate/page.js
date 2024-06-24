@@ -41,7 +41,7 @@ const BarcodeGenerate = () => {
   useEffect(() => {
     const sendata = async () => {
       try {
-        const response = await fetch("https://return-app.vercel.app/api/genbarcode", {
+        const response = await fetch("http://localhost:3000/api/genbarcode", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
