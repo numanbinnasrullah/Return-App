@@ -29,7 +29,7 @@ const addReturn = () => {
     setLoading(true);
     setOrderData([]);
     try {
-      const response = await fetch("http://localhost:3000/api/savereturn", {
+      const response = await fetch("https://return-app.vercel.app/api/savereturn", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -64,7 +64,7 @@ const addReturn = () => {
   const viewdata = async () => {
     setLoading(true);
     try {
-      const response = await fetch("http://localhost:3000/api/addreturn", {
+      const response = await fetch("https://return-app.vercel.app/api/addreturn", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
