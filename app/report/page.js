@@ -33,7 +33,7 @@ const Report = () => {
 
         console.log(startDate, endDate);
 
-        const response = await fetch("https://return-app.vercel.app/api/viewreturn", {
+        const response = await fetch("http://localhost:3000/api/viewreturn", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -65,6 +65,42 @@ const Report = () => {
       console.log("Please select both start and end dates.");
     }
   };
+  const downloadCSV = () => {
+    const csvHeader = [
+      "Order Ref",
+      "Shop Name",
+      "Channel",
+      "Postcode",
+      "Quantity",
+      "Product",
+      "Barcode",
+      "Order Date",
+      "Return Date"
+    ];
+    const csvRows = OrderData.map(item => [
+      item.orderref,
+      item.shopname,
+      item.channel,
+      item.pcode,
+      item.qty,
+      item.product,
+      item.barcode,
+      item.order_date,
+      moment(item.returndate).format("YYYY-MM-DD")
+    ]);
+
+    const csvContent =
+      "data:text/csv;charset=utf-8," +
+      [csvHeader.join(","), ...csvRows.map(e => e.join(","))].join("\n");
+
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "report.csv");
+    document.body.appendChild(link);
+
+    link.click();
+  }
 
   return (
     <div className="p-4 sm:ml-64">
@@ -126,6 +162,13 @@ const Report = () => {
               </p>
             </div>
             <div className="overflow-x-auto">
+            <button
+              type="button"
+              onClick={downloadCSV}
+              className="w-full text-white bg-blue-800 mt-3 p-2 hover:bg-blue-700 font-medium"
+            >
+              Download CSV
+            </button>
               <table className="min-w-full divide-y divide-gray-200">
                 <thead className="bg-gray-50">
                   <tr>
@@ -231,10 +274,10 @@ const Report = () => {
                         {moment(item.returndate).format("YYYY-MM-DD")}                 
                         </div>
                       </td>
-                      {/* Add more columns as needed */}
+                      {/ Add more columns as needed /}
                     </tr>
                   ))}
-                  {/* Add more rows as needed */}
+                  {/ Add more rows as needed /}
                 </tbody>
               </table>
             </div>
@@ -247,12 +290,12 @@ const Report = () => {
         <button
           type="button"
           onClick={handleViewData}
-          className="w-full text-white bg-blue-800 mt-3 p-2 hover:bg-blue-700 font-medium"
+          className="w-full text-white bg-purple-800 mt-3 p-2 hover:bg-purple-700 font-medium"
         >
           View Data
         </button>
       )}
-      {/* Display fetched data */}
+      {/ Display fetched data /}
       {responseData && (
         <div className="mt-4">
           <h2 className="text-lg font-semibold mb-2">Fetched Data:</h2>
