@@ -33,7 +33,7 @@ const Report = () => {
 
         console.log(startDate, endDate);
 
-        const response = await fetch("http://localhost:3000/api/viewreturn", {
+        const response = await fetch("https://return-app.vercel.app/api/viewreturn", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
