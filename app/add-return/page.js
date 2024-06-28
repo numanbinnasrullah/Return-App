@@ -5,7 +5,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 const addReturn = () => {
-  const [StartDate, setStartDate] = useState(null);
+  const [StartDate, setStartDate] = useState(new Date());
   const [barcode, setBarcode] = useState("");
   const [viewbutton, setviewbutton] = useState(true);
   const [data, setdata] = useState("");
@@ -46,7 +46,7 @@ const addReturn = () => {
         setLoading(false);
         setviewbutton(true);
        
-        setStartDate(null);
+        // setStartDate(null);
         setBarcode("");
         setmsg(true);
         setTimeout(() => {
@@ -80,7 +80,7 @@ const addReturn = () => {
       if (result.msg === "Record not found") {
         setError("Record not found");
         setnorecordmsg(true);
-        setStartDate(null);
+        // setStartDate(null);
         setBarcode("");
         setTimeout(() => {
           setnorecordmsg(false);
@@ -146,7 +146,7 @@ const addReturn = () => {
       <div className="p-4 sm:ml-64">
         <div className="flex flex-wrap -mx-2">
           <div className="flex w-full space-x-4">
-            {/* DatePicker Container */}
+            {/ DatePicker Container /}
             <div className="flex-1 px-2 mb-4">
               <DatePicker
                 selected={StartDate}
@@ -157,7 +157,7 @@ const addReturn = () => {
                 maxDate={endDate || today}
               />
             </div>
-            {/* Search Bar Container */}
+            {/ Search Bar Container /}
             <div className="flex-1 px-2 mb-4">
               <form className="w-full">
                 <label
@@ -215,7 +215,7 @@ const addReturn = () => {
         {orderData?.length > 0 ? (
           <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-l">
             <h1 className="text-3xl font-bold mb-4">Order Summary</h1>
-            {/* Assuming barcode is the same for all items */}
+            {/ Assuming barcode is the same for all items /}
             <p className="text-gray-700 mb-2">
               <span className="font-bold">Barcode:</span>{" "}
               {orderData[0]?.barcode}
@@ -231,7 +231,7 @@ const addReturn = () => {
               <span className="font-bold">Channel:</span>{" "}
               {orderData[0]?.channel}
             </p>
-            {/* Assuming order date is the same for all items */}
+            {/ Assuming order date is the same for all items /}
             <p className="text-gray-700 mb-2">
               <span className="font-bold">Order Date:</span>{" "}
               {new Date(orderData[0]?.order_date).toLocaleDateString()}
