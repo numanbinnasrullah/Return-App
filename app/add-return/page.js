@@ -28,8 +28,7 @@ const addReturn = () => {
   const addreturndata = async () => {
     setLoading(true);
     setOrderData([]);
-    if(barcode)
-      {
+    
         try {
           const response = await fetch("https://return-app.vercel.app/api/savereturn", {
             method: "POST",
@@ -61,20 +60,15 @@ const addReturn = () => {
           setError("Error fetching order data");
           setOrderData(null);
         }
-      }
-      else
-      {
-        setLoading(false);
-        setemptybarcode(true)
-        setTimeout(() => {
-          setmsg(false);
-        }, 3000);
-      }
+      
+     
    
   };
 
   const viewdata = async () => {
     setLoading(true);
+    if(barcode)
+      {
     try {
       const response = await fetch("https://return-app.vercel.app/api/addreturn", {
         method: "POST",
@@ -107,6 +101,15 @@ const addReturn = () => {
       console.error("Error fetching order data:", error);
       setError("Error fetching order data");
       setOrderData(null);
+    }
+  }
+    else
+    {
+      setLoading(false);
+      setemptybarcode(true)
+      setTimeout(() => {
+        setmsg(false);
+      }, 3000);
     }
     setLoading(false);
   };
