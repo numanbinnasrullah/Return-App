@@ -5,7 +5,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 const addReturn = () => {
-  const [StartDate, setStartDate] = useState(null);
+  const [StartDate, setStartDate] = useState(new Date());
   const [barcode, setBarcode] = useState("");
   const [viewbutton, setviewbutton] = useState(true);
   const [data, setdata] = useState("");
