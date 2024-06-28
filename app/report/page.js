@@ -6,7 +6,7 @@ import moment from "moment-timezone"; // Import moment-timezone for date formatt
 
 const Report = () => {
   const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null); // Correct state variable name
+  const [endDate, setEndDate] = useState(null);
   const [responseData, setResponseData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [reportdata, setreportdata] = useState([]);
@@ -14,7 +14,6 @@ const Report = () => {
   const [OrderData, setOrderData] = useState([]);
   const [OrderDatadatestart, setOrderDatadatestart] = useState("");
   const [OrderDatadateend, setOrderDatadateend] = useState("");
-  const [dateError, setDateError] = useState(false);
 
   const handleViewData = async () => {
     setLoading(true);
@@ -52,8 +51,8 @@ const Report = () => {
         const data = await response.json();
         if (data) {
           setLoading(false);
-          setOrderDatadatestart(data.data.startDate)
-          setOrderDatadateend(data.data.endDate)
+          setOrderDatadatestart(data.data.startDate);
+          setOrderDatadateend(data.data.endDate);
           setOrderData(data.fetchdata);
           setviewbutton(false);
 
@@ -63,14 +62,10 @@ const Report = () => {
         console.error("Error fetching data:", error);
       }
     } else {
-      setDateError(true);
-      setTimeout(() => {
-        setDateError(false);
-      }, 3000);
-      setLoading(false);
       console.log("Please select both start and end dates.");
     }
   };
+
   const downloadCSV = () => {
     const csvHeader = [
       "Order Ref",
@@ -106,7 +101,7 @@ const Report = () => {
     document.body.appendChild(link);
 
     link.click();
-  }
+  };
 
   return (
     <div className="p-4 sm:ml-64">
@@ -134,11 +129,11 @@ const Report = () => {
           </div>
         </div>
       </div>
-      {loading == true && (
+      {loading && (
         <div className="flex justify-center items-center mt-4" role="status">
           <svg
             aria-hidden="true"
-            class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+            className="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
             viewBox="0 0 100 101"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -152,167 +147,95 @@ const Report = () => {
               fill="currentFill"
             />
           </svg>
-          <span class="sr-only">Loading...</span>
+          <span className="sr-only">Loading...</span>
         </div>
       )}
-      {OrderData?.length > 0 ? (
+      {OrderData.length > 0 && (
         <div className="bg-white rounded-lg shadow-md overflow-hidden">
           <div className="p-6">
             <h1 className="text-3xl font-bold mb-4">Returns Report</h1>
-            <div className="mb-4">
-              <p className="text-gray-700">
-                <span className="font-bold">From Date:</span> {moment(OrderDatadatestart).format("YYYY-MM-DD")}
-              </p>
-              <p className="text-gray-700">
-                <span className="font-bold">To Date :</span> {moment(OrderDatadateend).format("YYYY-MM-DD")}
-              </p>
-            </div>
-            <div className="overflow-x-auto">
+            <p className="mb-4">
+              Start Date:{" "}
+              {OrderDatadatestart &&
+                new Date(OrderDatadatestart).toLocaleDateString()}
+            </p>
+            <p className="mb-4">
+              End Date:{" "}
+              {OrderDatadateend && new Date(OrderDatadateend).toLocaleDateString()}
+            </p>
             <button
-              type="button"
               onClick={downloadCSV}
-              className="w-full text-white bg-blue-800 mt-3 p-2 hover:bg-blue-700 font-medium"
+              className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
             >
               Download CSV
             </button>
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th
-                      scope="col"
-                      className="px-4 py-3 text-left text-sm font-bold text-black-500 uppercase tracking-wider"
-                    >
-                      Order Ref
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-4 py-3 text-left text-sm font-bold text-black-500 uppercase tracking-wider"
-                    >
-                      Shop Name
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-4 py-3 text-left text-sm font-bold text-black-500 uppercase tracking-wider"
-                    >
-                      Channel
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-4 py-3 text-left text-sm font-bold text-black-500 uppercase tracking-wider"
-                    >
-                      Postcode 
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-4 py-3 text-left text-sm font-bold text-black-500 uppercase tracking-wider"
-                    >
-                      Quantity
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-4 py-3 text-left text-sm font-bold text-black-500 uppercase tracking-wider"
-                    >
-                      Product
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-4 py-3 text-left text-sm font-bold text-black-500 uppercase tracking-wider"
-                    >
-                      Barcode
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-4 py-3 text-left text-sm font-bold text-black-500 uppercase tracking-wider"
-                    >
-                      Order Date
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-4 py-3 text-left text-sm font-bold text-black-500 uppercase tracking-wider"
-                    >
-                      Return Date
-                    </th>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="min-w-full bg-white divide-y divide-gray-200">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Order Ref
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Shop Name
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Channel
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Postcode
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Quantity
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Product
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Barcode
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Order Date
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Return Date
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {OrderData.map((item) => (
+                  <tr key={item.id}>
+                    <td className="px-6 py-4 whitespace-nowrap">{item.orderref}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">{item.shopname}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">{item.channel}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">{item.pcode}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">{item.qty}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">{item.product}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">{item.barcode}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      {item.order_date &&
+                        moment(item.order_date).format("YYYY-MM-DD")}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      {item.returndate &&
+                        moment(item.returndate).format("YYYY-MM-DD")}
+                    </td>
                   </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
-                  {OrderData.map((item, index) => (
-                    <tr key={item._id}>
-                      <td className="px-4 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900">
-                          {item.orderref}
-                        </div>
-                      </td>
-                      <td className="px-4 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900">{item.shopname}</div>
-                      </td>
-                      <td className="px-4 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900">  
-                        {item.channel}                 
-                        </div>
-                      </td>
-                      <td className="px-4 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900">  
-                        {item.pcode}                 
-                        </div>
-                      </td>
-                      <td className="px-4 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900">  
-                        {item.qty}                 
-                        </div>
-                      </td>
-                      <td className="px-4 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900">  
-                        {item.product}                 
-                        </div>
-                      </td>
-                      <td className="px-4 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900">  
-                        {item.barcode}                 
-                        </div>
-                      </td>
-                      <td className="px-4 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900">  
-                        {item.order_date}                 
-                        </div>
-                      </td>
-                      <td className="px-4 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900">  
-                        {moment(item.returndate).format("YYYY-MM-DD")}                 
-                        </div>
-                      </td>
-                      {/ Add more columns as needed /}
-                    </tr>
-                  ))}
-                  {/ Add more rows as needed /}
-                </tbody>
-              </table>
-            </div>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
-      ) : (
-        ""
       )}
-      {viewbutton == true && (
-        <button
-          type="button"
-          onClick={handleViewData}
-          className="w-full text-white bg-purple-800 mt-3 p-2 hover:bg-purple-700 font-medium"
-        >
-          View Data
-        </button>
-      )}
-       {dateError && (
-          <div className="mt-2 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-md mb-4">
-            PLEASE SELECT THE BOTH START AND END DATES.!
-          </div>
-        )}
-      {/ Display fetched data /}
-      {responseData && (
+      {viewbutton && (
         <div className="mt-4">
-          <h2 className="text-lg font-semibold mb-2">Fetched Data:</h2>
-          <pre className="bg-gray-100 p-4 rounded-lg overflow-auto">
-            {JSON.stringify(responseData, null, 2)}
-          </pre>
+          <button
+            onClick={handleViewData}
+            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+          >
+            View Data
+          </button>
         </div>
       )}
     </div>
