@@ -28,37 +28,49 @@ const addReturn = () => {
   const addreturndata = async () => {
     setLoading(true);
     setOrderData([]);
-    try {
-      const response = await fetch("https://return-app.vercel.app/api/savereturn", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ checkdata }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
+    if(barcode)
+      {
+        try {
+          const response = await fetch("https://return-app.vercel.app/api/savereturn", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ checkdata }),
+          });
+    
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+    
+          const result = await response.json();
+          if (result) {
+            setLoading(false);
+            setviewbutton(true);
+           
+            // setStartDate(null);
+            setBarcode("");
+            setmsg(true);
+            setTimeout(() => {
+              setmsg(false);
+            }, 3000);
+            window.location.reload();
+          }
+        } catch (error) {
+          console.error("Error fetching order data:", error);
+          setError("Error fetching order data");
+          setOrderData(null);
+        }
       }
-
-      const result = await response.json();
-      if (result) {
+      else
+      {
         setLoading(false);
-        setviewbutton(true);
-       
-        setStartDate(null);
-        setBarcode("");
-        setmsg(true);
+        setemptybarcode(true)
         setTimeout(() => {
           setmsg(false);
         }, 3000);
-        window.location.reload();
       }
-    } catch (error) {
-      console.error("Error fetching order data:", error);
-      setError("Error fetching order data");
-      setOrderData(null);
-    }
+   
   };
 
   const viewdata = async () => {
@@ -80,7 +92,7 @@ const addReturn = () => {
       if (result.msg === "Record not found") {
         setError("Record not found");
         setnorecordmsg(true);
-        setStartDate(null);
+        // setStartDate(null);
         setBarcode("");
         setTimeout(() => {
           setnorecordmsg(false);
@@ -297,6 +309,11 @@ const addReturn = () => {
         {norecordmsg && (
           <div className="mt-2 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-md mb-4">
             NO RECORD FOUND.!
+          </div>
+        )}
+         {emptybarcode && (
+          <div className="mt-2 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-md mb-4">
+            ENTER THE BARCODE.!
           </div>
         )}
       </div>
