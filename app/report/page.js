@@ -14,6 +14,7 @@ const Report = () => {
   const [OrderData, setOrderData] = useState([]);
   const [OrderDatadatestart, setOrderDatadatestart] = useState("");
   const [OrderDatadateend, setOrderDatadateend] = useState("");
+  const [dateError, setDateError] = useState(false);
 
   const handleViewData = async () => {
     setLoading(true);
@@ -62,6 +63,11 @@ const Report = () => {
         console.error("Error fetching data:", error);
       }
     } else {
+      setDateError(true);
+      setTimeout(() => {
+        setDateError(false);
+      }, 3000);
+      setLoading(false);
       console.log("Please select both start and end dates.");
     }
   };
@@ -238,6 +244,11 @@ const Report = () => {
           </button>
         </div>
       )}
+      {dateError && (
+          <div className="mt-2 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-md mb-4">
+            PLEASE SELECT THE BOTH START AND END DATES.!
+          </div>
+        )}
     </div>
   );
 };

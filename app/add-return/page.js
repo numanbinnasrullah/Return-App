@@ -108,7 +108,7 @@ const addReturn = () => {
       setLoading(false);
       setemptybarcode(true)
       setTimeout(() => {
-        setmsg(false);
+        setemptybarcode(false);
       }, 3000);
     }
     setLoading(false);
